@@ -5,25 +5,17 @@ class FiguresController < ApplicationController
   end
 
   post '/figures' do
-    @figure = Figure.create(name: params["figure_name"])
-    if params["new_title"] == ""
-          @figure.titles << Title.find_by_id(params[:figure][:title_ids])
-      else
-          @figure.titles << Title.create(name: params["new_title"])
-    end
-    # binding.pry
-      if params[:landmark][:name] == ""
-      else
-        @figure.landmarks << Landmark.find_or_create_by(params[:landmark])
-      end
-      if params[:figure][:landmark_ids] == ""
-      else
-        @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
+    @figure = Figure.create(params["figure"])
+     if !params[:landmark][:name].empty?
+       @figure.landmarks << Landmark.create(params[:landmark])
      end
 
-    @figure.save
-    redirect "/figures/#{@figure.id}"
+     if !params[:title][:name].empty?
+       @figure.titles << Title.create(params[:title])
+     end
 
+     @figure.save
+     redirect to "/figures/#{@figure.id}"
   end
 
   get '/figures' do
@@ -46,9 +38,9 @@ class FiguresController < ApplicationController
 
   post '/figures/:id' do
     @figure = Figure.find_by_id(params[:id])
-    
+
      @figure.name = params["figure_name"]
-     
+
      if params["new_title"] != ""
        @figure.titles << Title.find_or_create_by(name: params["new_title"])
      end
