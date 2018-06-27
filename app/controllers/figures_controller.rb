@@ -11,7 +11,7 @@ class FiguresController < ApplicationController
       else
           @figure.titles << Title.create(name: params["new_title"])
     end
-    binding.pry
+    # binding.pry
       if params[:landmark][:name] == ""
       else
         @figure.landmarks << Landmark.find_or_create_by(params[:landmark])
