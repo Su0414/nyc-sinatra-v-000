@@ -46,16 +46,18 @@ class FiguresController < ApplicationController
 
   post '/figures/:id' do
     @figure = Figure.find_by_id(params[:id])
+    
      @figure.name = params["figure_name"]
+     
      if params["new_title"] != ""
        @figure.titles << Title.find_or_create_by(name: params["new_title"])
      end
 
      if params[:landmark] != nil
-      @figure.landmarks << Landmark.create(name: params[:landmark][:name] , year_completed:params[:landmark][:year_completed])
+      @figure.landmarks << Landmark.find_or_create_by(params[:landmark])
     else
       if params["new_landmark"] != ""
-        @figure.landmarks << Landmark.create(name: params["new_landmark"] , year_completed:params["new_landmark_year_completed"])
+        @figure.landmarks << Landmark.create(params[:landmark])
       end
     end
 
