@@ -11,19 +11,11 @@ class FiguresController < ApplicationController
       else
           @figure.titles << Title.create(name: params["new_title"])
     end
-
-    if params[:landmark] != nil
-     @figure.landmarks << Landmark.find_or_create_by(name: params[:landmark][:name] , year_completed:params[:landmark][:year_completed])
-   else
-     if params["new_landmark"] != ""
-       @figure.landmarks << Landmark.find_or_create_by(name: params["new_landmark"] , year_completed:params["new_landmark_year_completed"])
+    binding.pry
+      if params[:landmark][:name] != ""
+        @figure.landmarks << Landmark.find_or_create_by(params[:landmark])
      end
-   end
 
-    if params[:figure][:landmark_ids] != nil
-      @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
-    end
-    #binding.pry
     @figure.save
     redirect "/figures/#{@figure.id}"
 
@@ -54,17 +46,17 @@ class FiguresController < ApplicationController
        @figure.titles << Title.find_or_create_by(name: params["new_title"])
      end
 
-         if params[:landmark] != nil
-          @figure.landmarks << Landmark.create(name: params[:landmark][:name] , year_completed:params[:landmark][:year_completed])
-        else
-          if params["new_landmark"] != ""
-            @figure.landmarks << Landmark.create(name: params["new_landmark"] , year_completed:params["new_landmark_year_completed"])
-          end
-        end
+     if params[:landmark] != nil
+      @figure.landmarks << Landmark.create(name: params[:landmark][:name] , year_completed:params[:landmark][:year_completed])
+    else
+      if params["new_landmark"] != ""
+        @figure.landmarks << Landmark.create(name: params["new_landmark"] , year_completed:params["new_landmark_year_completed"])
+      end
+    end
 
-         if params[:figure][:landmark_ids] != nil
-           @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
-         end
+     if params[:figure][:landmark_ids] != nil
+       @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
+     end
 
      @figure.save
      redirect "/figures/#{@figure.id}"
