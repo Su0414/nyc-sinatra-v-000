@@ -38,6 +38,7 @@ class FiguresController < ApplicationController
 
   post '/figures/:id' do
     @figure = Figure.find_by_id(params[:id])
+    binding.pry
       @figure.update(params[:figure])
 
       if !params[:landmark][:name].empty?
