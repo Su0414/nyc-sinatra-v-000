@@ -12,10 +12,13 @@ class FiguresController < ApplicationController
           @figure.titles << Title.create(name: params["new_title"])
     end
     binding.pry
-      if params[:landmark][:name] != ""
+      if params[:landmark][:name] == ""
+      else
         @figure.landmarks << Landmark.find_or_create_by(params[:landmark])
-      elsif  params[:figure][:landmark_ids] != ""
-          @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
+      end
+      if params[:figure][:landmark_ids] == ""
+      else
+        @figure.landmarks << Landmark.find_by_id(params[:figure][:landmark_ids])
      end
 
     @figure.save
