@@ -1,44 +1,27 @@
-<h1>New page for Figures</h1>
+<form action="/figures" method="POST">
+  <lable>Name</label>
+    <input type="text" id="figure_name" name="figure[name]"><br></br>
 
-<form action="/figures" method="post">
-  <label>Figure Name</label>
-    <br></br>
-      <input type="text" name="figure_name" id="figure[name]"></input>
+  <label><h4>Titles</h4></label>
+    <% Title.all.each do |title| %>
+      <label><%= title.name %></label>
+      <input type="checkbox" id="title_<%=title.id%>" name="figure[title_ids][]" value="<%= title.id %>"><br>
 
-    <br></br>
-    <label>Titles:</label>
-    <br></br>
-  <% Title.all.each do |title| %>
-     <input id="title_<%= title.id %>" type="checkbox" name="figure[title_ids][]" value="<%= title.id %>" >
-       <label><%= title.name %></label>
-     </input>
-  <% end %>
-
-  <br></br>
-
-  <label>Create New title</label>
-    <br></br>
-      <input type="text"  name="new_title" id="title[name]"></input>
-    <br></br>
-
-    <label>Landmarks:</label>
-    <br></br>
-
-  <% Landmark.all.each do |landmark| %>
-         <input id="landmark_<%= landmark.id %>" type="checkbox" name="figure[landmark_ids][]" value="<%= landmark.id %>">
-           <label><%= landmark.name %></label>
-         </input>
-  <% end %>
-
-  <br></br>
-
-  <label>Create New Landmark</label>
-    <br></br>
-      <input type="text" name="landmark[name]" id="new_landmark"></input>
-      <input type="text" name="landmark[year_completed]" ></input>
+    <% end %>
+ <label><h4>Create New Title:</h4></label>
+  <input type="text" id="new_title" name="title[name]">
 
 
+  <label><h4>Landmarks</h4></label>
+    <% Landmark.all.each do |landmark| %>
+      <label><%= landmark.name %></label>
+      <input type="checkbox" id="landmark_<%=landmark.id%>" name="figure[landmark_ids][]" value="<%= landmark.id %>"><br>
 
-      <input type="submit" value="Create New Figure">
-
+    <% end %>
+ <label><h4>Create New Landmark:</h4></label>
+ <label>Name:</label>
+  <input type="text" id="new_landmark" name="landmark[name]">
+  <label>Year:</label>
+  <input type="text" name="landmark[year_completed]">
+  <input type="submit" value="Create New Figure">
 </form>
